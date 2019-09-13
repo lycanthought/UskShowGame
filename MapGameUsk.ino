@@ -38,6 +38,8 @@ int success = 0;
 byte pressed;        //stores values of button pressed
 int keysPressed = 0;           //loop iteration
 int currentCode = 1; // code we are currently solving
+uint32_t codeTimeout = 0; // timer
+const uint32_t timeoutTime = 5000;
 
 
 //<------------------------------------------------------------------------------ Void Setup
@@ -63,20 +65,27 @@ delay(1000);
 
 void loop() {
 
-
+    if( (codeTimeout - millis()) > timeoutTime )
+    {
+     // clear current entries and reset timer
+     keysPressed = 0;
+     codeTimeout = millis();
+    }
     pressed = keypad.getKey();
     if( pressed )
     {
       if( pressed == '#')
       {
         currentCode = 1;
+        keysPressed = 0;
       }
       else if( (pressed == '*') && currentCode > 1)
       {
         myDFPlayer.play(currentCode);  //Play the numbered mp3
       }
-      else
+      else if( (pressed >= 0x30) && (pressed <= 0x39) ) // check it is a number - ascii 0x30 = '0'
       {
+        codeTimeout = millis();  // reset timer when button is pressed
         Serial.println( pressed );
         enteredCode[keysPressed] = pressed;
         keysPressed++;
