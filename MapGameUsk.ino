@@ -65,7 +65,7 @@ delay(1000);
 
 void loop() {
 
-    if( (codeTimeout - millis()) > timeoutTime )
+    if( (millis() - codeTimeout ) > timeoutTime )
     {
      // clear current entries and reset timer
      keysPressed = 0;
