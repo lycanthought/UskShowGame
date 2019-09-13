@@ -67,13 +67,13 @@ void loop() {
     pressed = keypad.getKey();
     if( pressed )
     {
-      if( pressed == '#')
+      if( pressed == '#') //press # to reset to code 1/start
       {
         currentCode = 1;
       }
-      else if( (pressed == '*') && currentCode > 1)
+      else if( (pressed == '*') && currentCode > 1) //Press * to replay the current code mp3
       {
-        myDFPlayer.play(currentCode);  //Play the numbered mp3
+        myDFPlayer.play(currentCode);  //Play the current code mp3 after pressing *
       }
       else
       {
@@ -246,7 +246,7 @@ void loop() {
 
 void playError()
 {
-  myDFPlayer.play(8);                          //if the entered code matches codeis wrong, play track seven
+  myDFPlayer.play(8);                          //if the entered code matches code is wrong, play track eight
   delay(1000);
   Serial.println("You Fail");
 }
